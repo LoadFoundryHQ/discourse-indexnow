@@ -27,6 +27,10 @@ plugins:
     default: ""
     client: false
     type: list
+  indexnow_url_cooldown_minutes:
+    default: 1
+    client: false
+    hidden: true
   indexnow_hourly_limit:
     default: 0
     client: false

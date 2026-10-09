@@ -67,6 +67,14 @@
 
 .indexnow-input {
   max-width: 240px;
+
+  &--area {
+    display: block;
+    font-family: monospace;
+    margin-block-end: 0.75em;
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
 .indexnow-ok {

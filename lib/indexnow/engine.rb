@@ -7,6 +7,7 @@ module IndexNow
     THROTTLE_KEY = "indexnow:throttle_until"
     HOUR_KEY = "indexnow:quota:hour"
     DAY_KEY = "indexnow:quota:day"
+    COOLDOWN_KEY = "indexnow:cooldown"
 
     class << self
       def enabled?
@@ -45,9 +46,29 @@ module IndexNow
         enqueue(topic_url(topic), trigger)
       end
 
-      def enqueue(url, trigger)
+      def enqueue(url, trigger, respect_cooldown: true)
         return if url.blank?
+        return if respect_cooldown && within_cooldown?(url)
+
+        mark_cooldown(url)
         Jobs.enqueue(:index_now_submit, urls: [url], trigger: trigger.to_s)
+      end
+
+      def enqueue_many(urls, trigger)
+        urls = Array(urls).map(&:to_s).uniq.select { |u| valid_url?(u) }
+        return 0 if urls.empty?
+
+        Jobs.enqueue(:index_now_submit, urls: urls, trigger: trigger.to_s)
+        urls.size
+      end
+
+      def valid_url?(url)
+        uri = URI.parse(url.to_s)
+        return false unless uri.is_a?(URI::HTTP) && uri.host.present?
+
+        uri.host == URI.parse(Discourse.base_url).host
+      rescue StandardError
+        false
       end
 
       def submit(urls, trigger: "manual")
@@ -189,6 +210,24 @@ module IndexNow
       def throttled?
         until_ts = Discourse.cache.read(THROTTLE_KEY).to_i
         until_ts.positive? && Time.now.to_i < until_ts
+      end
+
+      def within_cooldown?(url)
+        minutes = SiteSetting.indexnow_url_cooldown_minutes.to_i
+        return false if minutes <= 0
+
+        Discourse.cache.read(cooldown_key(url)).present?
+      end
+
+      def mark_cooldown(url)
+        minutes = SiteSetting.indexnow_url_cooldown_minutes.to_i
+        return if minutes <= 0
+
+        Discourse.cache.write(cooldown_key(url), 1, expires_in: minutes.minutes)
+      end
+
+      def cooldown_key(url)
+        "#{COOLDOWN_KEY}:#{Digest::SHA1.hexdigest(url.to_s)}"
       end
 
       def apply_retry_after(status)

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0
+
+Phase 1 — dashboard tools:
+- **Manual submission**: paste URLs (one per line) to submit specific links; only URLs on the site are accepted.
+- **Backfill preview**: see how many topics match (by category/date) before running the backfill.
+- **Per-URL cooldown** (`indexnow_url_cooldown_minutes`): avoids resubmitting the same URL too quickly.
+
 ## 1.1.6
 
 - Hidden the `indexnow_hourly_limit` and `indexnow_daily_limit` settings from the panel; over-quota batches are retried automatically, so no manual tuning is needed.

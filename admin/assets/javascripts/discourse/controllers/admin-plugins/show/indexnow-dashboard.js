@@ -15,6 +15,12 @@ export default class IndexNowDashboardController extends Controller {
   @tracked backfillQueued = false;
   @tracked backfillCategory = "";
   @tracked backfillSince = "";
+  @tracked previewing = false;
+  @tracked previewCount = null;
+
+  @tracked manualUrls = "";
+  @tracked manualSubmitting = false;
+  @tracked manualCount = null;
 
   @action
   async verifyKey() {
@@ -76,6 +82,50 @@ export default class IndexNowDashboardController extends Controller {
       popupAjaxError(error);
     } finally {
       this.backfilling = false;
+    }
+  }
+
+  @action
+  async previewBackfill() {
+    this.previewing = true;
+    try {
+      const data = await ajax(
+        "/admin/plugins/indexnow/backfill_preview.json",
+        {
+          data: {
+            category_id: this.backfillCategory,
+            since: this.backfillSince,
+          },
+        }
+      );
+      this.previewCount = data.count;
+    } catch (error) {
+      popupAjaxError(error);
+    } finally {
+      this.previewing = false;
+    }
+  }
+
+  @action
+  updateManualUrls(event) {
+    this.manualUrls = event.target.value;
+    this.manualCount = null;
+  }
+
+  @action
+  async submitManual() {
+    this.manualSubmitting = true;
+    try {
+      const data = await ajax("/admin/plugins/indexnow/submit.json", {
+        type: "POST",
+        data: { urls: this.manualUrls },
+      });
+      this.manualCount = data.count;
+      this.manualUrls = "";
+    } catch (error) {
+      popupAjaxError(error);
+    } finally {
+      this.manualSubmitting = false;
     }
   }
 

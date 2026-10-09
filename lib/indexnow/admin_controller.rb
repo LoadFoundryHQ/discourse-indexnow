@@ -58,5 +58,26 @@ module IndexNow
       )
       render json: { "ok" => true }
     end
+
+    def backfill_preview
+      count =
+        Backfill.count(
+          category_id: params[:category_id].presence,
+          since: params[:since].presence,
+        )
+      render json: { "count" => count }
+    end
+
+    def submit_manual
+      urls =
+        params[:urls]
+          .to_s
+          .split(/[\r\n]+/)
+          .map(&:strip)
+          .reject(&:empty?)
+
+      count = Engine.enqueue_many(urls, "manual")
+      render json: { "ok" => true, "count" => count }
+    end
   end
 end

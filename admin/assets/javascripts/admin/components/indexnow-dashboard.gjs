@@ -79,6 +79,18 @@ export default <template>
         />
         <button
           type="button"
+          class="btn btn-default"
+          disabled={{@controller.previewing}}
+          {{on "click" @controller.previewBackfill}}
+        >
+          {{#if @controller.previewing}}
+            {{i18n "indexnow.previewing"}}
+          {{else}}
+            {{i18n "indexnow.preview"}}
+          {{/if}}
+        </button>
+        <button
+          type="button"
           class="btn btn-primary"
           disabled={{@controller.backfilling}}
           {{on "click" @controller.runBackfill}}
@@ -91,6 +103,41 @@ export default <template>
         </button>
         {{#if @controller.backfillQueued}}
           <span class="indexnow-ok">{{i18n "indexnow.running"}}</span>
+        {{/if}}
+        {{#if @controller.previewCount}}
+          <span class="indexnow-panel__hint">
+            {{@controller.previewCount}} {{i18n "indexnow.eligible"}}
+          </span>
+        {{/if}}
+      </div>
+    </section>
+
+    <section class="indexnow-panel">
+      <h3>{{i18n "indexnow.manual_title"}}</h3>
+      <p class="indexnow-panel__hint">{{i18n "indexnow.manual_help"}}</p>
+      <textarea
+        class="indexnow-input indexnow-input--area"
+        rows="4"
+        value={{@controller.manualUrls}}
+        {{on "input" @controller.updateManualUrls}}
+      ></textarea>
+      <div class="indexnow-panel__actions">
+        <button
+          type="button"
+          class="btn btn-primary"
+          disabled={{@controller.manualSubmitting}}
+          {{on "click" @controller.submitManual}}
+        >
+          {{#if @controller.manualSubmitting}}
+            {{i18n "indexnow.submitting"}}
+          {{else}}
+            {{i18n "indexnow.submit_urls"}}
+          {{/if}}
+        </button>
+        {{#if @controller.manualCount}}
+          <span class="indexnow-ok">
+            {{@controller.manualCount}} {{i18n "indexnow.queued"}}
+          </span>
         {{/if}}
       </div>
     </section>
