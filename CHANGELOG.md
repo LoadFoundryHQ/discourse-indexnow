@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2
+
+- Fixed the key endpoint controller reference: use the `index_now` namespace so it resolves to the `IndexNow` module (Discourse/Rails camelizes route namespaces).
+
 ## 1.0.1
 
 - Fixed the public key endpoint (`/indexnow/<key>`): the controller now lives under `lib/indexnow/` and is required explicitly, matching Discourse's plugin controller convention.

@@ -2,7 +2,7 @@
 
 # name: discourse-indexnow
 # about: Load Foundry IndexNow — notify IndexNow search engines (Bing, Yandex, Seznam, Naver) as soon as your topics are created, edited or deleted.
-# version: 1.0.1
+# version: 1.0.2
 # authors: Load Foundry
 # url: https://github.com/LoadFoundryHQ/discourse-indexnow
 # required_version: 3.2.0
@@ -21,7 +21,7 @@ after_initialize do
 
   Discourse::Application.routes.append do
     # Public key file used by IndexNow to verify ownership: /indexnow/<key>
-    get "/indexnow/:key" => "indexnow/key#show"
+    get "/indexnow/:key" => "index_now/key#show"
   end
 
   DiscourseEvent.on(:post_created) { |post| IndexNow::Engine.on_post_created(post) }
