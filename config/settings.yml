@@ -14,3 +14,20 @@ plugins:
   indexnow_submit_on_update:
     default: true
     client: false
+  indexnow_submit_on_reply:
+    default: false
+    client: false
+  indexnow_excluded_category_ids:
+    default: ""
+    client: false
+    type: list
+  indexnow_excluded_tag_names:
+    default: ""
+    client: false
+    type: list
+  indexnow_hourly_limit:
+    default: 200
+    client: false
+  indexnow_daily_limit:
+    default: 10000
+    client: false

@@ -1,0 +1,100 @@
+.indexnow-dashboard {
+  max-width: 900px;
+
+  &__cards {
+    display: grid;
+    gap: 0.75em;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    margin-block-end: 1.5em;
+  }
+}
+
+.indexnow-card {
+  background: var(--primary-very-low);
+  border: 1px solid var(--primary-low);
+  border-radius: var(--d-input-border-radius);
+  padding: 1em;
+
+  &__label {
+    color: var(--primary-medium);
+    font-size: 0.85em;
+  }
+
+  &__value {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-block-start: 0.25em;
+  }
+}
+
+.indexnow-panel {
+  border-top: 1px solid var(--primary-low);
+  padding-block: 1.25em;
+
+  h3 {
+    margin-block: 0 0.5em;
+  }
+
+  &__code {
+    background: var(--primary-very-low);
+    border-radius: var(--d-input-border-radius);
+    display: inline-block;
+    font-family: monospace;
+    margin: 0 0 0.25em;
+    padding: 0.35em 0.6em;
+  }
+
+  &__hint {
+    color: var(--primary-medium);
+    font-size: 0.9em;
+    margin: 0 0 0.75em;
+    word-break: break-all;
+  }
+
+  &__actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+  }
+
+  &__head {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.indexnow-input {
+  max-width: 240px;
+}
+
+.indexnow-ok {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.indexnow-err {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.indexnow-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+
+  th,
+  td {
+    border-bottom: 1px solid var(--primary-low);
+    padding: 0.4em 0.6em;
+    text-align: start;
+  }
+
+  &__url {
+    max-width: 420px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

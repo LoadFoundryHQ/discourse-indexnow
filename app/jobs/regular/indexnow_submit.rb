@@ -3,10 +3,10 @@
 module Jobs
   class IndexNowSubmit < ::Jobs::Base
     def execute(args)
-      url = args[:url].to_s
-      return if url.blank?
+      urls = Array(args[:urls]).map(&:to_s).reject(&:empty?)
+      return if urls.empty?
 
-      IndexNow::Engine.submit([url])
+      IndexNow::Engine.submit(urls, trigger: args[:trigger].presence || "auto")
     end
   end
 end

@@ -9,7 +9,11 @@ A **Load Foundry** plugin for Discourse that notifies **IndexNow** search engine
 - **Only public content**: private messages and topics in restricted categories are never submitted.
 - **Background job**: submissions run asynchronously (never block a request) and never break your forum if the API is down.
 - **Zero configuration**: a key is generated automatically on first run and served at `/indexnow/<key>` for verification.
-- **Multilingual** admin descriptions (English / Español / Português).
+- **Admin dashboard** (Admin → Plugins → Load Foundry IndexNow): status, key file, verify/rotate the key, today's counts and a recent-submissions log.
+- **Historical backfill**: submit all public topics (optionally by category and date) in one click.
+- **Batching + rate limits + Retry-After**: URLs are chunked into a single request; hourly/daily quotas are respected and `429` triggers a temporary throttle.
+- **Exclusions**: skip categories and tags you don't want indexed.
+- **Multilingual** admin UI (English / Español / Português).
 
 ## How IndexNow works
 
@@ -48,6 +52,11 @@ Admin → Settings → Plugins → **Load Foundry IndexNow**:
 | `indexnow_endpoint` | `https://api.indexnow.org/indexnow` | IndexNow API endpoint. |
 | `indexnow_submit_on_create` | `true` | Submit when a topic/post is created. |
 | `indexnow_submit_on_update` | `true` | Submit when a post is edited or a topic is deleted. |
+| `indexnow_submit_on_reply` | `false` | Submit when a new reply is posted. |
+| `indexnow_excluded_category_ids` | *(empty)* | Categories to exclude. |
+| `indexnow_excluded_tag_names` | *(empty)* | Tags to exclude. |
+| `indexnow_hourly_limit` | `200` | Max URLs per hour. |
+| `indexnow_daily_limit` | `10000` | Max URLs per day. |
 
 ## Verifying
 
