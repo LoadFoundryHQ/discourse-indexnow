@@ -26,7 +26,7 @@ plugins:
     client: false
     type: list
   indexnow_hourly_limit:
-    default: 200
+    default: 0
     client: false
   indexnow_daily_limit:
     default: 10000

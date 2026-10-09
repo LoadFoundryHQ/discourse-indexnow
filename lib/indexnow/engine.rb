@@ -66,7 +66,7 @@ module IndexNow
         last_status = nil
         urls.each_slice(CHUNK_SIZE) do |chunk|
           unless reserve_quota(chunk.size)
-            record(chunk, 429, "quota_exceeded", trigger)
+            requeue(chunk, trigger)
             last_status = 429
             next
           end
@@ -165,14 +165,21 @@ module IndexNow
       end
 
       def reserve_quota(count)
+        hour_limit = SiteSetting.indexnow_hourly_limit.to_i
+        day_limit = SiteSetting.indexnow_daily_limit.to_i
         hour = discourse_count(HOUR_KEY)
         day = discourse_count(DAY_KEY)
-        return false if hour + count > SiteSetting.indexnow_hourly_limit
-        return false if day + count > SiteSetting.indexnow_daily_limit
+
+        return false if hour_limit.positive? && hour + count > hour_limit
+        return false if day_limit.positive? && day + count > day_limit
 
         Discourse.cache.write(HOUR_KEY, hour + count, expires_in: 1.hour + 5.minutes)
         Discourse.cache.write(DAY_KEY, day + count, expires_in: 25.hours)
         true
+      end
+
+      def requeue(chunk, trigger)
+        Jobs.enqueue_in(15.minutes, :index_now_submit, urls: chunk, trigger: trigger.to_s)
       end
 
       def discourse_count(key)

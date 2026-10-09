@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.4
+
+- Rate limits no longer mark batches as **failed**: over-quota batches are **re-queued** (retried in 15 minutes) instead of recorded as failures.
+- Default hourly limit is now **0 (no limit)**; the daily limit stays 10,000. Set a positive hourly value to throttle.
+
 ## 1.1.3
 
 - Fixed the background jobs: moved them to `lib/indexnow/jobs.rb` (`Jobs::IndexNowSubmit`, `Jobs::IndexNowBackfill`) and required them explicitly, since Discourse does not reliably autoload plugin `app/jobs`.

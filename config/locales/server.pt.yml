@@ -8,5 +8,5 @@ pt:
     indexnow_submit_on_reply: "Enviar a URL do tópico quando uma nova resposta é publicada."
     indexnow_excluded_category_ids: "IDs de categorias a excluir dos envios."
     indexnow_excluded_tag_names: "Nomes de etiquetas a excluir dos envios."
-    indexnow_hourly_limit: "Máximo de URLs a enviar por hora."
+    indexnow_hourly_limit: "Máximo de URLs a enviar por hora (0 = sem limite). Os lotes que excedem a cota são reenviados automaticamente."
     indexnow_daily_limit: "Máximo de URLs a enviar por dia."

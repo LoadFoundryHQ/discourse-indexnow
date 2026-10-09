@@ -8,5 +8,5 @@ en:
     indexnow_submit_on_reply: "Submit the topic URL when a new reply is posted."
     indexnow_excluded_category_ids: "Category IDs to exclude from submissions."
     indexnow_excluded_tag_names: "Tag names to exclude from submissions."
-    indexnow_hourly_limit: "Maximum URLs to submit per hour."
+    indexnow_hourly_limit: "Maximum URLs to submit per hour (0 = no limit). Over-quota batches are retried automatically."
     indexnow_daily_limit: "Maximum URLs to submit per day."
