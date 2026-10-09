@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3
+
+- Fixed the background jobs: moved them to `lib/indexnow/jobs.rb` (`Jobs::IndexNowSubmit`, `Jobs::IndexNowBackfill`) and required them explicitly, since Discourse does not reliably autoload plugin `app/jobs`.
+
 ## 1.1.2
 
 - Moved the submission log model to `lib/indexnow/log.rb` (`IndexNow::Log`) and required it explicitly, since Discourse does not reliably autoload plugin `app/models`.

@@ -9,4 +9,10 @@ module Jobs
       IndexNow::Engine.submit(urls, trigger: args[:trigger].presence || "auto")
     end
   end
+
+  class IndexNowBackfill < ::Jobs::Base
+    def execute(args)
+      IndexNow::Backfill.run(category_id: args[:category_id], since: args[:since])
+    end
+  end
 end
