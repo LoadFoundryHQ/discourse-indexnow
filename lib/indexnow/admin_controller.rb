@@ -111,6 +111,8 @@ module IndexNow
       render json: { "ok" => true }
     end
 
+    MAX_MANUAL_URLS = 10_000
+
     def submit_manual
       urls =
         params[:urls]
@@ -118,6 +120,7 @@ module IndexNow
           .split(/[\r\n]+/)
           .map(&:strip)
           .reject(&:empty?)
+          .first(MAX_MANUAL_URLS)
 
       count = Engine.enqueue_many(urls, "manual")
       render json: { "ok" => true, "count" => count }

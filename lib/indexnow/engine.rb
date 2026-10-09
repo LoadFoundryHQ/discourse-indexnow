@@ -60,21 +60,37 @@ module IndexNow
       end
 
       # Re-submits every topic of a category so engines re-evaluate them
-      # (e.g. after a category changes visibility).
+      # (e.g. after a category changes visibility). Streams in chunks to keep
+      # memory bounded on large forums.
       def refresh_category(category_id)
         return unless enabled?
         category_id = category_id.to_i
         return 0 if category_id <= 0
 
-        urls = []
+        batch = []
+        total = 0
         Topic
           .where(category_id: category_id, archetype: Archetype.default, deleted_at: nil)
-          .find_each(batch_size: 1000) { |topic| urls.concat(topic_urls(topic)) }
+          .includes(:category, :tags)
+          .find_each(batch_size: 500) do |topic|
+            batch.concat(topic_urls(topic))
+            total += 1
+            flush_batch(batch, "category")
+          end
+        flush_batch(batch, "category", final: true)
+        total
+      end
 
-        urls.each_slice(CHUNK_SIZE) do |chunk|
-          Jobs.enqueue(:index_now_submit, urls: chunk, trigger: "category")
+      def flush_batch(batch, trigger, final: false)
+        while batch.size >= CHUNK_SIZE
+          chunk = batch.slice!(0, CHUNK_SIZE)
+          Jobs.enqueue(:index_now_submit, urls: chunk, trigger: trigger.to_s)
         end
-        urls.size
+
+        if final && batch.present?
+          Jobs.enqueue(:index_now_submit, urls: batch.dup, trigger: trigger.to_s)
+          batch.clear
+        end
       end
 
       def enqueue_urls(urls, trigger)
@@ -136,6 +152,8 @@ module IndexNow
       end
 
       def submit(urls, trigger: "manual")
+        return unless enabled?
+
         urls = Array(urls).map(&:to_s).uniq.reject(&:empty?)
         return if urls.empty?
 
@@ -144,7 +162,7 @@ module IndexNow
         return if host.blank? || key.blank?
 
         if throttled?
-          record(urls, 429, "throttled", trigger)
+          urls.each_slice(CHUNK_SIZE) { |chunk| requeue(chunk, trigger) }
           return 429
         end
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.1
+
+Security/reliability hardening (audit):
+- Backfill and category refresh now **stream in chunks** (bounded memory) and eager-load category/tags (no N+1).
+- `submit` now no-ops when the plugin is disabled; a temporary throttle **re-queues** instead of recording false failures.
+- Log retention: a daily job deletes submissions older than 30 days.
+
 ## 1.5.0
 
 Phase 4 — more triggers:

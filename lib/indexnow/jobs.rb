@@ -21,4 +21,12 @@ module Jobs
       IndexNow::Engine.refresh_category(args[:category_id]) if args[:category_id].present?
     end
   end
+
+  class IndexNowCleanup < ::Jobs::Scheduled
+    every 1.day
+
+    def execute(_args)
+      IndexNow::Log.where("created_at < ?", 30.days.ago).delete_all
+    end
+  end
 end
