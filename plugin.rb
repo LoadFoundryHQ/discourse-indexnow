@@ -2,7 +2,7 @@
 
 # name: discourse-indexnow
 # about: Load Foundry IndexNow — notify IndexNow search engines (Bing, Yandex, Seznam, Naver) as soon as your topics are created, edited or deleted, with an admin dashboard and historical backfill.
-# version: 1.4.0
+# version: 1.5.0
 # authors: Load Foundry
 # url: https://github.com/LoadFoundryHQ/discourse-indexnow
 # required_version: 3.2.0
@@ -47,6 +47,7 @@ after_initialize do
       post "/backfill" => "index_now/admin#backfill"
       get "/backfill_preview" => "index_now/admin#backfill_preview"
       post "/submit" => "index_now/admin#submit_manual"
+      post "/refresh_category" => "index_now/admin#refresh_category"
     end
 
     # Full-page loads of the admin dashboard render the admin SPA.
@@ -60,4 +61,8 @@ after_initialize do
   DiscourseEvent.on(:post_edited) { |post| IndexNow::Engine.on_post_changed(post) }
   DiscourseEvent.on(:post_destroyed) { |post| IndexNow::Engine.on_post_changed(post) }
   DiscourseEvent.on(:topic_destroyed) { |topic| IndexNow::Engine.on_topic_destroyed(topic) }
+  DiscourseEvent.on(:topic_category_changed) { |topic| IndexNow::Engine.on_topic_changed(topic) }
+  DiscourseEvent.on(:topic_merged) { |topic| IndexNow::Engine.on_topic_changed(topic) }
+  DiscourseEvent.on(:topic_recovered) { |topic| IndexNow::Engine.on_topic_changed(topic) }
+  DiscourseEvent.on(:topic_trashed) { |topic| IndexNow::Engine.on_topic_removed(topic) }
 end

@@ -37,6 +37,8 @@ export default class IndexNowDashboardController extends Controller {
   @tracked backfillSince = "";
   @tracked previewing = false;
   @tracked previewCount = null;
+  @tracked refreshingCategory = false;
+  @tracked categoryRefreshed = false;
 
   @tracked manualUrls = "";
   @tracked manualSubmitting = false;
@@ -123,6 +125,23 @@ export default class IndexNowDashboardController extends Controller {
       popupAjaxError(error);
     } finally {
       this.previewing = false;
+    }
+  }
+
+  @action
+  async refreshCategory() {
+    this.refreshingCategory = true;
+    this.categoryRefreshed = false;
+    try {
+      await ajax("/admin/plugins/indexnow/refresh_category.json", {
+        type: "POST",
+        data: { category_id: this.backfillCategory },
+      });
+      this.categoryRefreshed = true;
+    } catch (error) {
+      popupAjaxError(error);
+    } finally {
+      this.refreshingCategory = false;
     }
   }
 

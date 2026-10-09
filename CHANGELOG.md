@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.0
+
+Phase 4 — more triggers:
+- Re-submit when a topic is **moved to another category**, **merged**, **recovered** or **trashed**.
+- **Refresh category** action: re-submit all topics of a category (e.g. after changing its visibility).
+
 ## 1.4.0
 
 Phase 3 — localized URLs:

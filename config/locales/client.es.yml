@@ -38,5 +38,6 @@ es:
       submit_urls: "Enviar"
       submitting: "Enviando…"
       queued: "en cola"
+      refresh_category: "Refrescar categoría"
       trend_title: "Últimos 7 días"
       failures_title: "Motivos de fallo"

@@ -125,10 +125,25 @@ export default <template>
         {{#if @controller.backfillQueued}}
           <span class="indexnow-ok">{{i18n "indexnow.running"}}</span>
         {{/if}}
+        <button
+          type="button"
+          class="btn btn-default"
+          disabled={{@controller.refreshingCategory}}
+          {{on "click" @controller.refreshCategory}}
+        >
+          {{#if @controller.refreshingCategory}}
+            {{i18n "indexnow.running"}}
+          {{else}}
+            {{i18n "indexnow.refresh_category"}}
+          {{/if}}
+        </button>
         {{#if @controller.previewCount}}
           <span class="indexnow-panel__hint">
             {{@controller.previewCount}} {{i18n "indexnow.eligible"}}
           </span>
+        {{/if}}
+        {{#if @controller.categoryRefreshed}}
+          <span class="indexnow-ok">{{i18n "indexnow.running"}}</span>
         {{/if}}
       </div>
     </section>

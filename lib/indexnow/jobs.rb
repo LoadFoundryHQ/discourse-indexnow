@@ -15,4 +15,10 @@ module Jobs
       IndexNow::Backfill.run(category_id: args[:category_id], since: args[:since])
     end
   end
+
+  class IndexNowCategoryRefresh < ::Jobs::Base
+    def execute(args)
+      IndexNow::Engine.refresh_category(args[:category_id]) if args[:category_id].present?
+    end
+  end
 end

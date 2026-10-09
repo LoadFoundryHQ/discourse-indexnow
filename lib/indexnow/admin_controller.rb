@@ -101,6 +101,16 @@ module IndexNow
       render json: { "count" => count }
     end
 
+    def refresh_category
+      category_id = params[:category_id].to_i
+      if category_id <= 0
+        return render json: { "ok" => false, "error" => "category_id required" }, status: 400
+      end
+
+      Jobs.enqueue(:index_now_category_refresh, category_id: category_id)
+      render json: { "ok" => true }
+    end
+
     def submit_manual
       urls =
         params[:urls]

@@ -46,6 +46,37 @@ module IndexNow
         enqueue_urls(topic_urls(topic), trigger)
       end
 
+      def on_topic_changed(topic)
+        return unless enabled? && SiteSetting.indexnow_submit_on_update
+        return if topic.blank?
+        return unless topic_allowed?(topic)
+        enqueue_urls(topic_urls(topic), "update")
+      end
+
+      def on_topic_removed(topic)
+        return unless enabled? && SiteSetting.indexnow_submit_on_update
+        return if topic.blank?
+        enqueue_urls(topic_urls(topic), "delete")
+      end
+
+      # Re-submits every topic of a category so engines re-evaluate them
+      # (e.g. after a category changes visibility).
+      def refresh_category(category_id)
+        return unless enabled?
+        category_id = category_id.to_i
+        return 0 if category_id <= 0
+
+        urls = []
+        Topic
+          .where(category_id: category_id, archetype: Archetype.default, deleted_at: nil)
+          .find_each(batch_size: 1000) { |topic| urls.concat(topic_urls(topic)) }
+
+        urls.each_slice(CHUNK_SIZE) do |chunk|
+          Jobs.enqueue(:index_now_submit, urls: chunk, trigger: "category")
+        end
+        urls.size
+      end
+
       def enqueue_urls(urls, trigger)
         urls = Array(urls).map(&:to_s).uniq.reject(&:empty?)
         urls = urls.reject { |url| within_cooldown?(url) }
