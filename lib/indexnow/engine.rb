@@ -159,7 +159,7 @@ module IndexNow
               updated_at: now,
             }
           end
-        IndexNowLog.insert_all(rows) if rows.present?
+        IndexNow::Log.insert_all(rows) if rows.present?
       rescue StandardError => e
         Rails.logger.warn("discourse-indexnow: log failed (#{e.class}: #{e.message})")
       end

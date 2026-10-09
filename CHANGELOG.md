@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2
+
+- Moved the submission log model to `lib/indexnow/log.rb` (`IndexNow::Log`) and required it explicitly, since Discourse does not reliably autoload plugin `app/models`.
+
 ## 1.1.1
 
 - Fixed autoload/migration naming: file names now match the `IndexNow` constants (migration `create_index_now_logs`, model `index_now_log`, jobs `index_now_submit` / `index_now_backfill`).

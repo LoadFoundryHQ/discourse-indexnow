@@ -12,9 +12,9 @@ module IndexNow
         "key_url" => "#{Discourse.base_url}/#{key}.txt",
         "key_accessible" => Discourse.cache.read("indexnow:key_accessible"),
         "today_success" =>
-          IndexNowLog.successful.since(day_start).count,
-        "today_failed" => IndexNowLog.failed.since(day_start).count,
-        "total" => IndexNowLog.count,
+          IndexNow::Log.successful.since(day_start).count,
+        "today_failed" => IndexNow::Log.failed.since(day_start).count,
+        "total" => IndexNow::Log.count,
         "hourly_limit" => SiteSetting.indexnow_hourly_limit,
         "daily_limit" => SiteSetting.indexnow_daily_limit,
       }
@@ -22,7 +22,7 @@ module IndexNow
 
     def logs
       logs =
-        IndexNowLog.recent.limit(100).map do |log|
+        IndexNow::Log.recent.limit(100).map do |log|
           {
             "id" => log.id,
             "url" => log.url,
