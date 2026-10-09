@@ -15,6 +15,10 @@ A **Load Foundry** plugin for Discourse that notifies **IndexNow** search engine
 - **Exclusions**: skip categories and tags you don't want indexed.
 - **Multilingual** admin UI (English / Español / Português).
 
+## Screenshots
+
+![Admin dashboard](screenshots/dashboard-en.png)
+
 ## How IndexNow works
 
 1. The plugin hosts your **key** at `https://your-forum/<key>.txt` (also available at `/indexnow/<key>`).
