@@ -6,7 +6,7 @@ module IndexNow
       urls = []
       topic_scope(category_id: category_id, since: since).find_each(batch_size: 1000) do |topic|
         next unless Engine.topic_allowed?(topic)
-        urls << Engine.topic_url(topic)
+        urls.concat(Engine.topic_urls(topic))
       end
 
       urls.each_slice(Engine::CHUNK_SIZE) { |chunk| Jobs.enqueue(:index_now_submit, urls: chunk, trigger: "backfill") }

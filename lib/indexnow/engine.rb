@@ -35,7 +35,7 @@ module IndexNow
       def on_topic_destroyed(topic)
         return unless SiteSetting.indexnow_submit_on_update
         return if topic.blank?
-        enqueue(topic_url(topic), "delete")
+        enqueue_urls(topic_urls(topic), "delete")
       end
 
       def submit_post(post, trigger)
@@ -43,7 +43,40 @@ module IndexNow
         topic = post&.topic
         return if topic.blank?
         return unless topic_allowed?(topic)
-        enqueue(topic_url(topic), trigger)
+        enqueue_urls(topic_urls(topic), trigger)
+      end
+
+      def enqueue_urls(urls, trigger)
+        urls = Array(urls).map(&:to_s).uniq.reject(&:empty?)
+        urls = urls.reject { |url| within_cooldown?(url) }
+        return if urls.empty?
+
+        urls.each { |url| mark_cooldown(url) }
+        Jobs.enqueue(:index_now_submit, urls: urls, trigger: trigger.to_s)
+      end
+
+      # Main topic URL plus a `?tl=<locale>` variant per locale when Discourse
+      # Content Localization (crawler param) is enabled.
+      def topic_urls(topic)
+        base = topic_url(topic)
+        locales = localized_locales
+        return [base] if locales.empty?
+
+        [base] + locales.map { |locale| "#{base}?tl=#{locale}" }
+      end
+
+      def localized_locales
+        return [] unless SiteSetting.respond_to?(:content_localization_enabled)
+        return [] unless SiteSetting.content_localization_enabled
+        return [] unless SiteSetting.respond_to?(:content_localization_crawler_param)
+        return [] unless SiteSetting.content_localization_crawler_param
+
+        SiteSetting
+          .content_localization_supported_locales
+          .to_s
+          .split(/[|,]/)
+          .map(&:strip)
+          .reject(&:empty?)
       end
 
       def enqueue(url, trigger, respect_cooldown: true)

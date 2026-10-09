@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0
+
+Phase 3 — localized URLs:
+- When Discourse **Content Localization** (crawler param) is enabled, the plugin also submits a `?tl=<locale>` URL variant per supported locale (main URL + localizations in a single batch), for both automatic submissions and backfill.
+
 ## 1.3.0
 
 Phase 2 — dashboard analytics:

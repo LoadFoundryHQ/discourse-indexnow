@@ -14,6 +14,7 @@ A **Load Foundry** plugin for Discourse that notifies **IndexNow** search engine
 - **Manual submission**: paste URLs (one per line) to submit specific links.
 - **Batching + rate limits + Retry-After**: URLs are chunked into a single request; hourly/daily quotas are respected and `429` triggers a temporary throttle.
 - **Exclusions**: skip categories and tags you don't want indexed.
+- **Localized URLs**: if Discourse **Content Localization** (crawler param) is enabled, a `?tl=<locale>` variant is submitted per supported locale.
 - **Multilingual** admin UI (English / Español / Português).
 
 ## Screenshots
