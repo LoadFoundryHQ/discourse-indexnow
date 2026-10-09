@@ -1,0 +1,29 @@
+# frozen_string_literal: true
+
+# name: discourse-indexnow
+# about: Load Foundry IndexNow — notify IndexNow search engines (Bing, Yandex, Seznam, Naver) as soon as your topics are created, edited or deleted.
+# version: 1.0.0
+# authors: Load Foundry
+# url: https://github.com/LoadFoundryHQ/discourse-indexnow
+# required_version: 3.2.0
+
+enabled_site_setting :indexnow_enabled
+
+require_relative "lib/indexnow/engine"
+
+after_initialize do
+  # Auto-generate a key the first time the plugin runs, so it works out of the box.
+  if SiteSetting.indexnow_enabled && SiteSetting.indexnow_key.blank?
+    SiteSetting.indexnow_key = SecureRandom.hex(16)
+  end
+
+  Discourse::Application.routes.append do
+    # Public key file used by IndexNow to verify ownership: /indexnow/<key>
+    get "/indexnow/:key" => "indexnow#key"
+  end
+
+  DiscourseEvent.on(:post_created) { |post| IndexNow::Engine.on_post_created(post) }
+  DiscourseEvent.on(:post_edited) { |post| IndexNow::Engine.on_post_changed(post) }
+  DiscourseEvent.on(:post_destroyed) { |post| IndexNow::Engine.on_post_changed(post) }
+  DiscourseEvent.on(:topic_destroyed) { |topic| IndexNow::Engine.on_topic_destroyed(topic) }
+end

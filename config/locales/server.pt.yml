@@ -1,0 +1,7 @@
+pt:
+  site_settings:
+    indexnow_enabled: "Ativa o Load Foundry IndexNow: notifica os buscadores do IndexNow (Bing, Yandex, Seznam, Naver) quando os seus tópicos mudam."
+    indexnow_key: "A sua chave do IndexNow. É servida publicamente em /indexnow/<chave> para que os buscadores verifiquem a propriedade. Deixe vazio para gerar uma automaticamente."
+    indexnow_endpoint: "Endpoint da API do IndexNow. Padrão: https://api.indexnow.org/indexnow"
+    indexnow_submit_on_create: "Enviar a URL do tópico quando um tópico ou post novo é criado."
+    indexnow_submit_on_update: "Enviar a URL do tópico quando um post é editado ou um tópico é excluído."

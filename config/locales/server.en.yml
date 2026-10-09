@@ -1,0 +1,7 @@
+en:
+  site_settings:
+    indexnow_enabled: "Enable Load Foundry IndexNow: notify IndexNow search engines (Bing, Yandex, Seznam, Naver) when your topics change."
+    indexnow_key: "Your IndexNow key. It is served publicly at /indexnow/<key> so engines can verify ownership. Leave it empty to auto-generate one."
+    indexnow_endpoint: "IndexNow API endpoint. Default: https://api.indexnow.org/indexnow"
+    indexnow_submit_on_create: "Submit a topic URL when a new topic or post is created."
+    indexnow_submit_on_update: "Submit a topic URL when a post is edited or a topic is deleted."

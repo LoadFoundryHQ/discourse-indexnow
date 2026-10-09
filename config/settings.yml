@@ -1,0 +1,16 @@
+plugins:
+  indexnow_enabled:
+    default: true
+    client: false
+  indexnow_key:
+    default: ""
+    client: false
+  indexnow_endpoint:
+    default: "https://api.indexnow.org/indexnow"
+    client: false
+  indexnow_submit_on_create:
+    default: true
+    client: false
+  indexnow_submit_on_update:
+    default: true
+    client: false
