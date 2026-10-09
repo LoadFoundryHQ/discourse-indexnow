@@ -63,7 +63,7 @@ module IndexNow
       payload = {
         host: host,
         key: key,
-        keyLocation: "#{Discourse.base_url}/indexnow/#{key}",
+        keyLocation: "#{Discourse.base_url}/#{key}.txt",
         urlList: urls,
       }
 

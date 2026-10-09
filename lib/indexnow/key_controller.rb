@@ -9,7 +9,7 @@ module IndexNow
 
     def show
       expected = SiteSetting.indexnow_key.to_s
-      provided = params[:key].to_s
+      provided = params[:key].to_s.sub(/\.txt\z/, "")
 
       if expected.present? &&
            ActiveSupport::SecurityUtils.secure_compare(provided, expected)

@@ -1,7 +1,7 @@
 es:
   site_settings:
     indexnow_enabled: "Activa Load Foundry IndexNow: notifica a los buscadores de IndexNow (Bing, Yandex, Seznam, Naver) cuando cambian tus temas."
-    indexnow_key: "Tu clave de IndexNow. Se sirve públicamente en /indexnow/<clave> para que los buscadores verifiquen la propiedad. Déjala vacía para generar una automáticamente."
+    indexnow_key: "Tu clave de IndexNow. Se sirve públicamente en /<clave>.txt para que los buscadores verifiquen la propiedad. Déjala vacía para generar una automáticamente."
     indexnow_endpoint: "Endpoint de la API de IndexNow. Por defecto: https://api.indexnow.org/indexnow"
     indexnow_submit_on_create: "Enviar la URL del tema cuando se crea un tema o un post nuevo."
     indexnow_submit_on_update: "Enviar la URL del tema cuando se edita un post o se elimina un tema."

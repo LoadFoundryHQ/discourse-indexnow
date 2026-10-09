@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3
+
+- **Serve the key file at the domain root** (`/<key>.txt`), which is what IndexNow requires for verification; `keyLocation` now points there. The `/indexnow/<key>` alias is kept for convenience.
+
 ## 1.0.2
 
 - Fixed the key endpoint controller reference: use the `index_now` namespace so it resolves to the `IndexNow` module (Discourse/Rails camelizes route namespaces).

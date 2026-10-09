@@ -13,7 +13,7 @@ A **Load Foundry** plugin for Discourse that notifies **IndexNow** search engine
 
 ## How IndexNow works
 
-1. The plugin hosts your **key** at `https://your-forum/indexnow/<key>`.
+1. The plugin hosts your **key** at `https://your-forum/<key>.txt` (also available at `/indexnow/<key>`).
 2. When a topic changes, it `POST`s the topic URL to `https://api.indexnow.org/indexnow` with your host, key, `keyLocation` and `urlList`.
 3. **Bing, Yandex, Seznam and Naver** are notified through the shared IndexNow endpoint.
 
@@ -44,14 +44,14 @@ Admin → Settings → Plugins → **Load Foundry IndexNow**:
 | Setting | Default | Description |
 |---|---|---|
 | `indexnow_enabled` | `true` | Enable/disable the plugin. |
-| `indexnow_key` | *(auto)* | IndexNow key, served at `/indexnow/<key>`. Auto-generated if empty. |
+| `indexnow_key` | *(auto)* | IndexNow key, served at `/<key>.txt`. Auto-generated if empty. |
 | `indexnow_endpoint` | `https://api.indexnow.org/indexnow` | IndexNow API endpoint. |
 | `indexnow_submit_on_create` | `true` | Submit when a topic/post is created. |
 | `indexnow_submit_on_update` | `true` | Submit when a post is edited or a topic is deleted. |
 
 ## Verifying
 
-Visit `https://your-forum/indexnow/<your-key>` — it should return your key as plain text. IndexNow uses this to confirm you own the domain.
+Visit `https://your-forum/<your-key>.txt` — it should return your key as plain text. IndexNow uses this to confirm you own the domain.
 
 ## Notes
 
