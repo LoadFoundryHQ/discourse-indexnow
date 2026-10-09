@@ -60,4 +60,4 @@ Visit `https://your-forum/indexnow/<your-key>` — it should return your key as 
 
 ## License
 
-MIT — see [LICENSE](LICENSE). © Load Foundry (Xolvora).
+MIT — see [LICENSE](LICENSE). © Load Foundry.
