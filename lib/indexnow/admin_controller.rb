@@ -52,7 +52,7 @@ module IndexNow
 
     def backfill
       Jobs.enqueue(
-        :indexnow_backfill,
+        :index_now_backfill,
         category_id: params[:category_id].presence,
         since: params[:since].presence,
       )

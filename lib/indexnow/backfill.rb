@@ -17,7 +17,7 @@ module IndexNow
         urls << Engine.topic_url(topic)
       end
 
-      urls.each_slice(Engine::CHUNK_SIZE) { |chunk| Jobs.enqueue(:indexnow_submit, urls: chunk, trigger: "backfill") }
+      urls.each_slice(Engine::CHUNK_SIZE) { |chunk| Jobs.enqueue(:index_now_submit, urls: chunk, trigger: "backfill") }
       urls.size
     end
   end

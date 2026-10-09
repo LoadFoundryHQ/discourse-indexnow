@@ -47,7 +47,7 @@ module IndexNow
 
       def enqueue(url, trigger)
         return if url.blank?
-        Jobs.enqueue(:indexnow_submit, urls: [url], trigger: trigger.to_s)
+        Jobs.enqueue(:index_now_submit, urls: [url], trigger: trigger.to_s)
       end
 
       def submit(urls, trigger: "manual")

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Fixed autoload/migration naming: file names now match the `IndexNow` constants (migration `create_index_now_logs`, model `index_now_log`, jobs `index_now_submit` / `index_now_backfill`).
+
 ## 1.1.0
 
 - **Admin dashboard** (Admin → Plugins → Load Foundry IndexNow): status, key file URL, verify key, generate a new key, today's success/failed counts, recent submissions log, and historical backfill.
