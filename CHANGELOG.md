@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.6
+
+- Hidden the `indexnow_hourly_limit` and `indexnow_daily_limit` settings from the panel; over-quota batches are retried automatically, so no manual tuning is needed.
+
 ## 1.1.5
 
 - Hidden the technical settings `indexnow_key` and `indexnow_endpoint` from the settings panel; both are managed from the IndexNow dashboard.

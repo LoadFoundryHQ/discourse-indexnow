@@ -30,6 +30,8 @@ plugins:
   indexnow_hourly_limit:
     default: 0
     client: false
+    hidden: true
   indexnow_daily_limit:
     default: 10000
     client: false
+    hidden: true
