@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.5
+
+- Hidden the technical settings `indexnow_key` and `indexnow_endpoint` from the settings panel; both are managed from the IndexNow dashboard.
+
 ## 1.1.4
 
 - Rate limits no longer mark batches as **failed**: over-quota batches are **re-queued** (retried in 15 minutes) instead of recorded as failures.

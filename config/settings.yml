@@ -5,9 +5,11 @@ plugins:
   indexnow_key:
     default: ""
     client: false
+    hidden: true
   indexnow_endpoint:
     default: "https://api.indexnow.org/indexnow"
     client: false
+    hidden: true
   indexnow_submit_on_create:
     default: true
     client: false
