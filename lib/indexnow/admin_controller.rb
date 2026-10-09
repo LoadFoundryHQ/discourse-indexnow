@@ -37,6 +37,39 @@ module IndexNow
       render json: { "logs" => logs }
     end
 
+    def stats
+      days = 7
+      start = (days - 1).days.ago.beginning_of_day
+
+      raw =
+        IndexNow::Log
+          .where("created_at >= ?", start)
+          .group("date(created_at)", :status)
+          .count
+
+      trend =
+        (0...days).map do |i|
+          date = (days - 1 - i).days.ago.to_date
+          {
+            "date" => date.iso8601,
+            "success" => raw[[date, "success"]] || 0,
+            "failed" => raw[[date, "failed"]] || 0,
+          }
+        end
+
+      failures =
+        IndexNow::Log
+          .failed
+          .since(start)
+          .group(:error)
+          .count
+          .map { |reason, count| { "reason" => reason.presence || "unknown", "count" => count } }
+          .sort_by { |entry| -entry["count"] }
+          .first(10)
+
+      render json: { "trend" => trend, "failures" => failures }
+    end
+
     def verify_key
       result = KeyCheck.run
       Discourse.cache.write("indexnow:key_accessible", result["accessible"], expires_in: 1.hour)

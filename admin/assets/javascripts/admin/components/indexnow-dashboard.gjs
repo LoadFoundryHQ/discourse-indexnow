@@ -29,6 +29,27 @@ export default <template>
     </div>
 
     <section class="indexnow-panel">
+      <h3>{{i18n "indexnow.trend_title"}}</h3>
+      <div class="indexnow-trend">
+        {{#each @controller.trendBars as |bar|}}
+          <div class="indexnow-trend__day" title="{{bar.success}} / {{bar.failed}}">
+            <div class="indexnow-trend__bars">
+              <div
+                class="indexnow-trend__bar indexnow-trend__bar--ok"
+                style="height: {{bar.okPct}}%"
+              ></div>
+              <div
+                class="indexnow-trend__bar indexnow-trend__bar--fail"
+                style="height: {{bar.failPct}}%"
+              ></div>
+            </div>
+            <span class="indexnow-trend__label">{{bar.date}}</span>
+          </div>
+        {{/each}}
+      </div>
+    </section>
+
+    <section class="indexnow-panel">
       <h3>{{i18n "indexnow.key"}}</h3>
       <p class="indexnow-panel__code">{{@controller.status.key}}</p>
       <p class="indexnow-panel__hint">{{@controller.status.key_url}}</p>
@@ -176,5 +197,19 @@ export default <template>
         <p class="indexnow-panel__hint">{{i18n "indexnow.none"}}</p>
       {{/if}}
     </section>
+
+    {{#if @controller.failures.length}}
+      <section class="indexnow-panel">
+        <h3>{{i18n "indexnow.failures_title"}}</h3>
+        <ul class="indexnow-failures">
+          {{#each @controller.failures as |failure|}}
+            <li>
+              <span class="indexnow-table__url">{{failure.reason}}</span>
+              — {{failure.count}}
+            </li>
+          {{/each}}
+        </ul>
+      </section>
+    {{/if}}
   </div>
 </template>;

@@ -9,7 +9,7 @@ A **Load Foundry** plugin for Discourse that notifies **IndexNow** search engine
 - **Only public content**: private messages and topics in restricted categories are never submitted.
 - **Background job**: submissions run asynchronously (never block a request) and never break your forum if the API is down.
 - **Zero configuration**: a key is generated automatically on first run and served at `/indexnow/<key>` for verification.
-- **Admin dashboard** (Admin → Plugins → Load Foundry IndexNow): status, key file, verify/rotate the key, today's counts and a recent-submissions log.
+- **Admin dashboard** (Admin → Plugins → Load Foundry IndexNow): status, key file, verify/rotate the key, today's counts, a **last-7-days trend**, **failure reasons** and a recent-submissions log.
 - **Historical backfill** with **preview**: see how many topics match (by category/date) before submitting.
 - **Manual submission**: paste URLs (one per line) to submit specific links.
 - **Batching + rate limits + Retry-After**: URLs are chunked into a single request; hourly/daily quotas are respected and `429` triggers a temporary throttle.

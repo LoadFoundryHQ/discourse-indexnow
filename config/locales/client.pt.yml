@@ -38,3 +38,5 @@ pt:
       submit_urls: "Enviar"
       submitting: "Enviando…"
       queued: "na fila"
+      trend_title: "Últimos 7 dias"
+      failures_title: "Motivos de falha"

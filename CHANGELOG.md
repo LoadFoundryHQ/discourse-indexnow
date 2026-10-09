@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0
+
+Phase 2 — dashboard analytics:
+- **Last 7 days trend** (successful vs failed per day).
+- **Failure reasons** breakdown.
+
 ## 1.2.0
 
 Phase 1 — dashboard tools:

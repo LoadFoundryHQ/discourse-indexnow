@@ -7,6 +7,26 @@ import { popupAjaxError } from "discourse/lib/ajax-error";
 export default class IndexNowDashboardController extends Controller {
   @tracked status = {};
   @tracked logs = [];
+  @tracked trend = [];
+  @tracked failures = [];
+
+  get trendMax() {
+    return Math.max(
+      1,
+      ...this.trend.map((day) => day.success + day.failed)
+    );
+  }
+
+  get trendBars() {
+    const max = this.trendMax;
+    return this.trend.map((day) => ({
+      date: (day.date || "").slice(5),
+      success: day.success,
+      failed: day.failed,
+      okPct: Math.round((day.success / max) * 100),
+      failPct: Math.round((day.failed / max) * 100),
+    }));
+  }
 
   @tracked verifying = false;
   @tracked verifyResult = null;
@@ -132,12 +152,15 @@ export default class IndexNowDashboardController extends Controller {
   @action
   async reload() {
     try {
-      const [status, logs] = await Promise.all([
+      const [status, logs, stats] = await Promise.all([
         ajax("/admin/plugins/indexnow/status.json"),
         ajax("/admin/plugins/indexnow/logs.json"),
+        ajax("/admin/plugins/indexnow/stats.json"),
       ]);
       this.status = status || {};
       this.logs = logs.logs || [];
+      this.trend = stats.trend || [];
+      this.failures = stats.failures || [];
     } catch (error) {
       popupAjaxError(error);
     }

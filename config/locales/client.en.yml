@@ -38,3 +38,5 @@ en:
       submit_urls: "Submit"
       submitting: "Submitting…"
       queued: "queued"
+      trend_title: "Last 7 days"
+      failures_title: "Failure reasons"
