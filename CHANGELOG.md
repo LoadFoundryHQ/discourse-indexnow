@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+
+- Fixed the public key endpoint (`/indexnow/<key>`): the controller now lives under `lib/indexnow/` and is required explicitly, matching Discourse's plugin controller convention.
+
 ## 1.0.0
 
 - Initial release: **Load Foundry IndexNow**.
